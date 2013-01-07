@@ -18,10 +18,12 @@ int main(void) {
     pointP = make_pair(x, y);
 
     if(Validation(prime, a, b, pointP)) {
-        //cout << "ok" << endl;
-
-        pointQ = Calculate(prime, a, pointP, multiplier);
-        cout << pointQ.first << endl << pointQ.second << endl;
+        try {
+            pointQ = Calculate(prime, a, pointP, multiplier);
+            cout << pointQ.first << endl << pointQ.second << endl;
+        } catch(int) {
+            cout << "infinity" << endl;
+        }
     }
     else
         cout << "wrong" << endl;
@@ -82,13 +84,11 @@ pair<ll, ll> Addition(ll prime, pair<ll, ll> P, pair<ll, ll> Q) {
 
     numerator = ((Q.second % prime) - (P.second % prime)) % prime;
     denominator = ((Q.first % prime) - (P.first % prime)) % prime;
-    //if(numerator % denominator != 0) {
-        //cout << "FUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" << endl;
-        while(denominator < 0)
-            denominator += prime;
-        lambda = (numerator * FindInverse(prime, denominator, prime)) % prime;
-    //} else
-        //lambda = (numerator / denominator) % prime;
+    if(denominator == 0)
+        throw 0;
+    while(denominator < 0)
+        denominator += prime;
+    lambda = (numerator * FindInverse(prime, denominator, prime)) % prime;
 
     answer.first = (((((lambda * lambda) % prime) - (P.first % prime)) % prime) - (Q.first % prime)) % prime;
     answer.second = ((((((P.first % prime) - (answer.first % prime)) % prime) * lambda) % prime) - (P.second % prime)) % prime;
@@ -102,17 +102,11 @@ pair<ll, ll> Doubling(ll prime, ll a, pair<ll, ll> P) {
 
     numerator = ((((3 * (P.first % prime) % prime) * (P.first % prime)) % prime) + a) % prime;
     denominator = (2 * (P.second % prime)) % prime;
-    //cout << "dsfdsf " << P.first << " " << P.second << endl;
-    //cout << "dsfdsf " << numerator << " " << denominator << endl;
-    //if(numerator % denominator != 0) {
-        //cout << "OHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" << endl;
-        //cout << "denominator: " << denominator << endl;
-        //cout << "Psecond: " << P.second << endl;
-        while(denominator < 0)
-            denominator += prime;
-        lambda = (numerator * FindInverse(prime, denominator, prime)) % prime;
-    //} else
-        //lambda = (numerator / denominator) % prime;
+    if(denominator == 0)
+        throw 0;
+    while(denominator < 0)
+        denominator += prime;
+    lambda = (numerator * FindInverse(prime, denominator, prime)) % prime;
     
     answer.first = (((lambda * lambda) % prime) - ((2 * (P.first % prime)) % prime)) % prime;
     answer.second = ((((((P.first % prime) - (answer.first % prime)) % prime) * lambda) % prime) - (P.second % prime)) % prime;
