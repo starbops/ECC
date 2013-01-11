@@ -64,7 +64,7 @@ pair<ll, ll> Calculate(ll prime, ll a, pair<ll, ll> P, ll multiplier) {
     } else if (multiplier % 2 == 0) {
         return Doubling(prime, a, Calculate(prime, a, P, (multiplier / 2)));
     } else if (multiplier % 2 == 1) {
-        return Addition(prime, P, Calculate(prime, a, P, (multiplier - 1))
+        return Addition(prime, P, Calculate(prime, a, P, (multiplier - 1)));
     }
 }
 
