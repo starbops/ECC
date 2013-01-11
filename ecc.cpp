@@ -1,5 +1,4 @@
 #include <iostream>
-#include <bitset>
 using namespace std;
 
 typedef long long ll;
@@ -52,30 +51,21 @@ bool Validation(ll prime, ll a, ll b, pair<ll, ll> point) {
 }
 
 pair<ll, ll> Calculate(ll prime, ll a, pair<ll, ll> P, ll multiplier) {
-    bitset<32> multiplierBinary;
-    int i = 0;
-    pair<ll, ll> answer;
-
-    multiplierBinary = multiplier;
-
-    for(i = 31; i >= 0; i--)
-        if(multiplierBinary[i] != 0) {
-            i--;
-            break;
-        }
-    //cout << multiplierBinary << endl;
-    answer = P;
-    if(i != -1) {
-        for(; i >= 0; i--) {
-            answer = Doubling(prime, a, answer);
-            //cout << "x=" << answer.first << ", y=" << answer.second << endl;
-            if(multiplierBinary[i] == 1)
-                answer = Addition(prime, answer, P);
-            //cout << "x=" << answer.first << ", y=" << answer.second << endl;
-        }
-    } else ;
     
-    return answer;
+    //  this is an unfold
+    
+    //  calculate p 1 = p
+    //  calculate p n
+    //      | even n = double (calculate p (n / 2))
+    //      | odd n  = add p (calculate p (n - 1))
+
+    if (multiplier == 1) {
+        return P;
+    } else if (multiplier % 2 == 0) {
+        return Doubling(prime, a, Calculate(prime, a, P, (multiplier / 2)));
+    } else if (multiplier % 2 == 1) {
+        return Addition(prime, P, Calculate(prime, a, P, (multiplier - 1))
+    }
 }
 
 pair<ll, ll> Addition(ll prime, pair<ll, ll> P, pair<ll, ll> Q) {
